@@ -1,33 +1,131 @@
+/* Reset buttons */
+
+button {
+  padding: 0;
+  border: none;
+  font: inherit;
+  color: inherit;
+  background-color: transparent;
+  /* show a hand cursor on hover; some argue that we
+  should keep the default arrow cursor for buttons */
+  cursor: pointer;
+}
+
+/* +++++++++++++++++++++++++++++++++++++++ */
+
+:root {
+  --bg-color: #eeeeee;
+  --screen-color: #dddddd;
+  --border-color: #000000;
+  --btn-color:  #686b6e;
+  --btn-alt-color: #d62d0f;
+  --btn-hover-color: #262729;
+  --font-color: #000000;
+  --font-alt-color: #ffffff;
+}
+
 .App {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
+  grid-template-rows: 1.5fr 1fr 1fr 1fr 1fr 1fr;
+  grid-template-areas: "screen screen screen screen" "allClear clear plusminus divide" "seven eight nine multiply" "four five six minus" "one two three plus" "zero decimal equal plus";
+  width: 300px;
+  height: 300px;
+  margin: 5% auto auto auto;
+  border: 1px solid var(--border-color);
+}
+
+.screen { 
+  grid-area: screen; 
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  border: 1px solid var(--border-color);
+  color: var(--font-color);
+  font-size: 3rem;
+  padding: 0 1rem 0 1rem;
+  background-color: var(--screen-color);
+}
+
+.seven { grid-area: seven; }
+
+.eight { grid-area: eight; }
+
+.nine { grid-area: nine; }
+
+.four { grid-area: four; }
+
+.five { grid-area: five; }
+
+.six { grid-area: six; }
+
+.one { grid-area: one; }
+
+.two { grid-area: two; }
+
+.three { grid-area: three; }
+
+.zero { grid-area: zero; }
+
+.decimal { grid-area: decimal; }
+
+.plusminus { grid-area: plusminus; }
+
+.clear { grid-area: clear; }
+
+.allClear { grid-area: allClear; }
+
+.plus { grid-area: plus; }
+
+.minus { grid-area: minus; }
+
+.multiply { grid-area: multiply; }
+
+.divide { grid-area: divide; }
+
+.equal { grid-area: equal; }
+
+button {
+  background-color: var(--btn-color);
+  color: var(--font-color);
+  font-size: 2rem;
+  width: 100%;
+  height: 100%;
+  border: 1px solid var(--border-color);
+}
+
+.operator {
+  background-color: var(--btn-alt-color);
+  color: var(--font-alt-color);
+}
+
+button:hover {
+  background-color: var(--btn-hover-color);
+  color: var(--font-alt-color);
+}
+
+header {
+  width: 100%;
   text-align: center;
 }
 
-.App-logo {
-  animation: App-logo-spin infinite 20s linear;
-  height: 40vmin;
-  pointer-events: none;
+main {
+  height: 100%;
+  width: 100%;
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+footer {
+  width: 100%;
+  text-align: center;
+  font-size: 1rem;
 }
 
-.App-link {
-  color: #61dafb;
+footer p {
+  padding: 5px;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+
+a {
+  color: var(--font-color);
+  text-decoration: none;
 }
