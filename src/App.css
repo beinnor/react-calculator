@@ -28,15 +28,15 @@ button {
   display: grid;
   grid-template-columns: 1fr 1fr 1fr 1fr;
   grid-template-rows: 1.5fr 1fr 1fr 1fr 1fr 1fr;
-  grid-template-areas: "screen screen screen screen" "allClear clear plusminus divide" "seven eight nine multiply" "four five six minus" "one two three plus" "zero decimal equal plus";
+  grid-template-areas: "display display display display" "clear delete plusminus divide" "seven eight nine multiply" "four five six subtract" "one two three add" "zero decimal equals add";
   width: 300px;
   height: 300px;
   margin: 5% auto auto auto;
   border: 1px solid var(--border-color);
 }
 
-.screen { 
-  grid-area: screen; 
+.display { 
+  grid-area: display; 
   display: flex;
   align-items: center;
   justify-content: flex-end;
@@ -71,19 +71,19 @@ button {
 
 .plusminus { grid-area: plusminus; }
 
+.delete { grid-area: delete; }
+
 .clear { grid-area: clear; }
 
-.allClear { grid-area: allClear; }
+.add { grid-area: add; }
 
-.plus { grid-area: plus; }
-
-.minus { grid-area: minus; }
+.subtract { grid-area: subtract; }
 
 .multiply { grid-area: multiply; }
 
 .divide { grid-area: divide; }
 
-.equal { grid-area: equal; }
+.equals { grid-area: equals; }
 
 button {
   background-color: var(--btn-color);
