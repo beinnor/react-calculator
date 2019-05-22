@@ -1,14 +1,67 @@
 import React from 'react';
 import Display from './Display';
+import Button from './Button';
 
 class Calculator extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       currentVal: '0',
-      lastVal: '',
+      lastVal: null,
     };
   }
+
+  // Eventlisteners
+  numberListener = (event) => {
+    if (this.state.currentVal === '0') {
+      this.setState({ currentVal: event.target.innerText });
+    } else if (this.state.currentVal.length <= 7) {
+      this.setState({ currentVal: this.state.currentVal + event.target.innerText});
+    }
+  };
+
+  deleteListener = () => {
+    if (this.state.currentVal.length === 1) {
+      this.setState({ currentVal: '0'});
+    } else {
+      let newVal = this.state.currentVal.slice(0, -1);
+      this.setState({ currentVal: newVal });
+    }
+  };
+  
+  clearListener = () => {
+    this.setState({ currentVal: '0', lastVal: null });
+  };
+
+  calculate = (event) => {
+    const operator = event.target.innerText;
+    const screenNum = parseFloat(this.state.currentVal);
+  
+    if (this.state.lastVal === null) {
+      this.setState({ lastVal: parseFloat(this.state.currentVal) });
+    } else {
+      let sum;
+      switch (operator) {
+        case '+':
+          sum = this.state.lastVal + screenNum;
+          break;
+        case '-':
+          sum = this.state.lastVal - screenNum;
+          break;
+        case '\xF7':
+          sum = this.state.lastVal / screenNum;
+          break;
+        case '\xD7':
+          sum = this.state.lastVal * screenNum;
+          break;
+        default:
+          throw new Error('Error in calculate function!');
+      }
+  
+      this.setState({ lastVal: sum });
+      
+    } 
+  };
   
   render() {
     return (
@@ -16,30 +69,29 @@ class Calculator extends React.Component {
         
         <Display value={this.state.currentVal} />
   
-        <div className="seven"><button className="number" id="seven" type="button">7</button></div>
-        <div className="eight"><button className="number" id="eight" type="button">8</button></div>
-        <div className="nine"><button className="number" id="nine" type="button">9</button></div>
-        <div className="four"><button className="number" id="four" type="button">4</button></div>
-        <div className="five"><button className="number" id="five" type="button">5</button></div>
-        <div className="six"><button className="number" id="six" type="button">6</button></div>
-        <div className="one"><button className="number" id="one" type="button">1</button></div>
-        <div className="two"><button className="number" id="two" type="button">2</button></div>
-        <div className="three"><button className="number" id="three" type="button">3</button></div>
-        <div className="zero"><button className="number" id="zero" type="button">0</button></div>
+        <Button name="seven" value="7" handleClick={this.numberListener} />
+        <Button name="eight" value="8" handleClick={this.numberListener} />
+        <Button name="nine" value="9" handleClick={this.numberListener} />
+        <Button name="four" value="4" handleClick={this.numberListener} />
+        <Button name="five" value="5" handleClick={this.numberListener} />
+        <Button name="six" value="6" handleClick={this.numberListener} />
+        <Button name="one" value="1" handleClick={this.numberListener} />
+        <Button name="two" value="2" handleClick={this.numberListener} />
+        <Button name="three" value="3" handleClick={this.numberListener} />
+        <Button name="zero" value="0" handleClick={this.numberListener} />
   
-        <div className="decimal"><button id="decimal" type="button">.</button></div>
-        <div className="plusminus"><button id="plusminus" type="button">&plusmn;</button></div>
+        <Button name="decimal" value="." handleClick={(e) => alert(e.target.innerText + ' not implemented')} />
+        <Button name="plusminus" value="&plusmn;" handleClick={(e) => alert(e.target.innerText + ' not implemented')} />
+        
   
-        <div className="delete"><button id="delete" type="button">C</button></div>
-        <div className="clear"><button id="clear" type="button">AC</button></div>
-  
-        <div className="add"><button className="operator" id="add" type="button">+</button></div>
-        <div className="subtract"><button className="operator" id="subtract" type="button">-</button></div>
-        <div className="multiply"><button className="operator" id="multiply" type="button">&times;</button>
-        </div>
-        <div className="divide"><button className="operator" id="divide" type="button">&divide;</button>
-        </div>
-        <div className="equals"><button id="equals" type="button">=</button></div>
+        <Button name="delete" value="C" handleClick={this.deleteListener} />
+        <Button name="clear" value="AC" handleClick={this.clearListener} />
+        
+        <Button name="add" value="+" handleClick={this.calculate} />
+        <Button name="subtract" value="-" handleClick={(e) => alert(e.target.innerText + ' not implemented')} />
+        <Button name="multiply" value="&times;" handleClick={(e) => alert(e.target.innerText + ' not implemented')} />
+        <Button name="divide" value="&divide;" handleClick={(e) => alert(e.target.innerText + ' not implemented')} />
+        <Button name="equals" value="=" handleClick={(e) => alert(e.target.innerText + ' not implemented')} />
       
       </div>
     );

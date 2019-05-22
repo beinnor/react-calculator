@@ -94,7 +94,7 @@ button {
   border: 1px solid var(--border-color);
 }
 
-.operator {
+#add, #subtract, #multiply, #divide {
   background-color: var(--btn-alt-color);
   color: var(--font-alt-color);
 }
