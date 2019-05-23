@@ -28,7 +28,7 @@ button {
   display: grid;
   grid-template-columns: 1fr 1fr 1fr 1fr;
   grid-template-rows: 1.5fr 1fr 1fr 1fr 1fr 1fr;
-  grid-template-areas: "display display display display" "clear delete plusminus divide" "seven eight nine multiply" "four five six subtract" "one two three add" "zero decimal equals add";
+  grid-template-areas: "display display display display" "clear clear delete divide" "seven eight nine multiply" "four five six subtract" "one two three add" "zero decimal equals add";
   width: 300px;
   height: 300px;
   margin: 5% auto auto auto;
@@ -68,8 +68,6 @@ button {
 .zero { grid-area: zero; }
 
 .decimal { grid-area: decimal; }
-
-.plusminus { grid-area: plusminus; }
 
 .delete { grid-area: delete; }
 

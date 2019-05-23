@@ -1,74 +1,76 @@
 import React from 'react';
 import Display from './Display';
 import Button from './Button';
+import * as math from 'mathjs';
+
+const MAX_DISPLAY_CHARS = 8;
 
 class Calculator extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      currentVal: '0',
-      lastVal: null,
+      displayString: '0', // Stringvalue on display
+      clearDisplay: false,    // Value in memory
     };
   }
 
-  // Eventlisteners
-  numberListener = (event) => {
-    if (this.state.currentVal === '0') {
-      this.setState({ currentVal: event.target.innerText });
-    } else if (this.state.currentVal.length <= 7) {
-      this.setState({ currentVal: this.state.currentVal + event.target.innerText});
+
+  calculate = (e) => {
+
+    // Need to replace &times; and &divide; with * and / for math.eval()
+    let regex = /×/gm;
+    let newDisplayString = this.state.displayString.replace(regex, '*');
+    regex = /÷/gm;
+    newDisplayString = newDisplayString.replace(regex, '/');
+
+
+
+    const answer = math.eval(newDisplayString);
+    this.setState({ displayString: answer.toString(), clearDisplay: true });
+  };
+
+  numberListener = (e) => {
+    if (this.state.displayString === '0' || this.state.clearDisplay ) {
+      this.setState({ displayString: e.target.innerText, clearDisplay: false });
+    } else if (this.state.displayString.length <= MAX_DISPLAY_CHARS) {
+      this.setState({ displayString: this.state.displayString + e.target.innerText })
+    }
+  };
+
+  operatorListener = (e) => {
+    if (this.state.displayString.length <= MAX_DISPLAY_CHARS) {
+      this.setState({ displayString: this.state.displayString + e.target.innerText, clearDisplay: false })
     }
   };
 
   deleteListener = () => {
-    if (this.state.currentVal.length === 1) {
-      this.setState({ currentVal: '0'});
+    if (this.state.displayString.length === 1) {
+      this.setState({ displayString: '0' });
     } else {
-      let newVal = this.state.currentVal.slice(0, -1);
-      this.setState({ currentVal: newVal });
+      let newVal = this.state.displayString.slice(0, -1);
+      this.setState({ displayString: newVal });
     }
   };
-  
+
   clearListener = () => {
-    this.setState({ currentVal: '0', lastVal: null });
+    this.setState({ displayString: '0', memoryVal: null });
   };
 
-  calculate = (event) => {
-    const operator = event.target.innerText;
-    const screenNum = parseFloat(this.state.currentVal);
-  
-    if (this.state.lastVal === null) {
-      this.setState({ lastVal: parseFloat(this.state.currentVal) });
-    } else {
-      let sum;
-      switch (operator) {
-        case '+':
-          sum = this.state.lastVal + screenNum;
-          break;
-        case '-':
-          sum = this.state.lastVal - screenNum;
-          break;
-        case '\xF7':
-          sum = this.state.lastVal / screenNum;
-          break;
-        case '\xD7':
-          sum = this.state.lastVal * screenNum;
-          break;
-        default:
-          throw new Error('Error in calculate function!');
-      }
-  
-      this.setState({ lastVal: sum });
-      
-    } 
+  plusMinusListener = () => {
+    if (this.state.displayString[0] === '-' && this.state.displayString !== '0') {      
+      this.setState({ displayString: this.state.displayString.slice(1) });
+    } else if (this.state.displayString !== '0') {
+      this.setState({ displayString: `-${this.state.displayString}` });
+    }
   };
-  
+
+
   render() {
     return (
       <div className="App">
-        
-        <Display value={this.state.currentVal} />
-  
+
+        <Display value={this.state.displayString} />
+
         <Button name="seven" value="7" handleClick={this.numberListener} />
         <Button name="eight" value="8" handleClick={this.numberListener} />
         <Button name="nine" value="9" handleClick={this.numberListener} />
@@ -79,20 +81,19 @@ class Calculator extends React.Component {
         <Button name="two" value="2" handleClick={this.numberListener} />
         <Button name="three" value="3" handleClick={this.numberListener} />
         <Button name="zero" value="0" handleClick={this.numberListener} />
-  
-        <Button name="decimal" value="." handleClick={(e) => alert(e.target.innerText + ' not implemented')} />
-        <Button name="plusminus" value="&plusmn;" handleClick={(e) => alert(e.target.innerText + ' not implemented')} />
-        
-  
+
+        <Button name="decimal" value="." handleClick={this.numberListener} />
+
+
         <Button name="delete" value="C" handleClick={this.deleteListener} />
         <Button name="clear" value="AC" handleClick={this.clearListener} />
-        
-        <Button name="add" value="+" handleClick={this.calculate} />
-        <Button name="subtract" value="-" handleClick={(e) => alert(e.target.innerText + ' not implemented')} />
-        <Button name="multiply" value="&times;" handleClick={(e) => alert(e.target.innerText + ' not implemented')} />
-        <Button name="divide" value="&divide;" handleClick={(e) => alert(e.target.innerText + ' not implemented')} />
-        <Button name="equals" value="=" handleClick={(e) => alert(e.target.innerText + ' not implemented')} />
-      
+
+        <Button name="add" value="+" handleClick={this.operatorListener} />
+        <Button name="subtract" value="-" handleClick={this.operatorListener} />
+        <Button name="multiply" value="×" handleClick={this.operatorListener} />
+        <Button name="divide" value="÷" handleClick={this.operatorListener} />
+        <Button name="equals" value="=" handleClick={this.calculate} />
+
       </div>
     );
   }
