@@ -37,6 +37,12 @@ class Calculator extends React.Component {
     }
   };
 
+  decimalListener = () => {
+    if (this.state.displayString.length <= MAX_DISPLAY_CHARS && !this.state.displayString.includes('.')) {
+      this.setState({ displayString: this.state.displayString + '.' });
+    }
+  }
+
   operatorListener = (e) => {
     if (this.state.displayString.length <= MAX_DISPLAY_CHARS) {
       this.setState({ displayString: this.state.displayString + e.target.innerText, clearDisplay: false })
@@ -65,6 +71,8 @@ class Calculator extends React.Component {
   };
 
 
+
+
   render() {
     return (
       <div className="App">
@@ -82,7 +90,7 @@ class Calculator extends React.Component {
         <Button name="three" value="3" handleClick={this.numberListener} />
         <Button name="zero" value="0" handleClick={this.numberListener} />
 
-        <Button name="decimal" value="." handleClick={this.numberListener} />
+        <Button name="decimal" value="." handleClick={this.decimalListener} />
 
 
         <Button name="delete" value="C" handleClick={this.deleteListener} />
