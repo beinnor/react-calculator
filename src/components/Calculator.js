@@ -6,61 +6,86 @@ class Calculator extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      displayString: '0', // Stringvalue on display
+      displayValue: '0', // Stringvalue on display
       firstValue: null,
       secondValue: null,
+      prevKeyType: null,
       operator: null,
-      clearDisplay: false,    // Value in memory
     };
   }
 
-  calculate = (e) => {
-    console.log(e.target.innerText);
+  calculate = (n1, operator, n2) => {
+    let result = '';
+    const firstValue = parseFloat(n1);
+    const secondValue = parseFloat(n2);
+
+    if (operator === 'add') {
+      result = firstValue + secondValue;
+    } else if (operator === 'subtract') {
+      result = firstValue - secondValue;
+    } else if (operator === 'multiply') {
+      result = firstValue * secondValue;
+    } else if (operator === 'divide') {
+      result = firstValue / secondValue;
+    }
+  
+    return result;
   };
 
   handleKeys = (e) => {
     const key = e.target;
     const keyContent = key.textContent;
     const action = key.dataset.keytype;
+    const displayValue = this.state.displayValue;
+    const prevKeyType = this.state.prevKeyType;
+    const firstValue = this.state.firstValue;
+    let secondValue;
+    const operator = this.state.operator;
 
     if (action === 'number') {
-      console.log('number ' + keyContent);
+      if (displayValue === '0' || prevKeyType === 'operator') {
+        this.setState({ displayValue: keyContent, prevKeyType: 'number' });
+      } else {
+        this.setState({ displayValue: displayValue + keyContent, prevKeyType: 'number' });
+      }
     }
 
     if (action === 'decimal') {
-      console.log('decimal');
+      if (!displayValue.includes('.')) {
+        this.setState({ displayValue: this.state.displayValue + keyContent });
+      }
     }
 
     if (action === 'delete') {
       console.log('delete/C');
+      this.setState({ displayValue: '0' });
     }
 
     if (action === 'clear') {
       console.log('clear/AC');
+      this.setState({ displayValue: '0', firstValue: null, secondValue: null, operator: null, prevKeyType: null });
     }
 
-    if (action === 'add') {
-      console.log('add');
-    }
-
-    if (action === 'subtract') {
-      console.log('subtract');
-    }
-
-    if (action === 'multiply') {
-      console.log('multiply');
-    }
-
-    if (action === 'divide') {
-      console.log('divide');
+    if (
+      action === 'add' || 
+      action === 'subtract' ||
+      action === 'multiply' ||
+      action === 'divide'
+      ) {
+      this.setState({ firstValue: displayValue, operator: action, prevKeyType: 'operator' });
     }
 
     if (action === 'equals') {
-      console.log('equals');
+      secondValue = this.state.displayValue;
+      this.setState({ displayValue: this.calculate(firstValue, operator, secondValue) });
     }
     
     if (action === 'plusminus') {
-      console.log('plusminus');
+      if (displayValue[0] === '-' && displayValue !== '0') {
+        this.setState({ displayValue: displayValue.slice(1) });
+      } else if (displayValue !== '0') {
+        this.setState({ displayValue: `-${displayValue}` });
+      }
     }
   }
 
@@ -68,7 +93,7 @@ class Calculator extends React.Component {
     return (
       <div className="App">
 
-        <Display value={this.state.displayString} />
+        <Display value={this.state.displayValue} />
 
         <Button name="seven" value="7" keytype="number" handleClick={this.handleKeys} />
         <Button name="eight" value="8" keytype="number" handleClick={this.handleKeys} />

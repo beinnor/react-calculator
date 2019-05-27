@@ -104,6 +104,11 @@ button:hover {
   color: var(--font-alt-color);
 }
 
+button > .depressed::before {
+  background-color: var(--btn-hover-color);
+  color: var(--font-alt-color);
+}
+
 header {
   width: 100%;
   text-align: center;
