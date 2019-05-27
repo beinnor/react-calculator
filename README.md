@@ -1,6 +1,6 @@
 # React Calculator
 
-Simple calculator made with React and mathjs
+Immediate execution type calculator made with React
 
 See [Wikipedia](https://en.wikipedia.org/wiki/Calculator_input_methods)
 
