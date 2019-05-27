@@ -1,77 +1,68 @@
 import React from 'react';
 import Display from './Display';
 import Button from './Button';
-import * as math from 'mathjs';
-
-const MAX_DISPLAY_CHARS = 8;
 
 class Calculator extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       displayString: '0', // Stringvalue on display
+      firstValue: null,
+      secondValue: null,
+      operator: null,
       clearDisplay: false,    // Value in memory
     };
   }
 
-
   calculate = (e) => {
-
-    // Need to replace &times; and &divide; with * and / for math.eval()
-    let regex = /×/gm;
-    let newDisplayString = this.state.displayString.replace(regex, '*');
-    regex = /÷/gm;
-    newDisplayString = newDisplayString.replace(regex, '/');
-
-
-
-    const answer = math.eval(newDisplayString);
-    this.setState({ displayString: answer.toString(), clearDisplay: true });
+    console.log(e.target.innerText);
   };
 
-  numberListener = (e) => {
-    if (this.state.displayString === '0' || this.state.clearDisplay ) {
-      this.setState({ displayString: e.target.innerText, clearDisplay: false });
-    } else if (this.state.displayString.length <= MAX_DISPLAY_CHARS) {
-      this.setState({ displayString: this.state.displayString + e.target.innerText })
+  handleKeys = (e) => {
+    const key = e.target;
+    const keyContent = key.textContent;
+    const action = key.dataset.keytype;
+
+    if (action === 'number') {
+      console.log('number ' + keyContent);
     }
-  };
 
-  decimalListener = () => {
-    if (this.state.displayString.length <= MAX_DISPLAY_CHARS && !this.state.displayString.includes('.')) {
-      this.setState({ displayString: this.state.displayString + '.' });
+    if (action === 'decimal') {
+      console.log('decimal');
+    }
+
+    if (action === 'delete') {
+      console.log('delete/C');
+    }
+
+    if (action === 'clear') {
+      console.log('clear/AC');
+    }
+
+    if (action === 'add') {
+      console.log('add');
+    }
+
+    if (action === 'subtract') {
+      console.log('subtract');
+    }
+
+    if (action === 'multiply') {
+      console.log('multiply');
+    }
+
+    if (action === 'divide') {
+      console.log('divide');
+    }
+
+    if (action === 'equals') {
+      console.log('equals');
+    }
+    
+    if (action === 'plusminus') {
+      console.log('plusminus');
     }
   }
-
-  operatorListener = (e) => {
-    if (this.state.displayString.length <= MAX_DISPLAY_CHARS) {
-      this.setState({ displayString: this.state.displayString + e.target.innerText, clearDisplay: false })
-    }
-  };
-
-  deleteListener = () => {
-    if (this.state.displayString.length === 1) {
-      this.setState({ displayString: '0' });
-    } else {
-      let newVal = this.state.displayString.slice(0, -1);
-      this.setState({ displayString: newVal });
-    }
-  };
-
-  clearListener = () => {
-    this.setState({ displayString: '0', memoryVal: null });
-  };
-
-  plusMinusListener = () => {
-    if (this.state.displayString[0] === '-' && this.state.displayString !== '0') {      
-      this.setState({ displayString: this.state.displayString.slice(1) });
-    } else if (this.state.displayString !== '0') {
-      this.setState({ displayString: `-${this.state.displayString}` });
-    }
-  };
-
-
-
 
   render() {
     return (
@@ -79,28 +70,29 @@ class Calculator extends React.Component {
 
         <Display value={this.state.displayString} />
 
-        <Button name="seven" value="7" handleClick={this.numberListener} />
-        <Button name="eight" value="8" handleClick={this.numberListener} />
-        <Button name="nine" value="9" handleClick={this.numberListener} />
-        <Button name="four" value="4" handleClick={this.numberListener} />
-        <Button name="five" value="5" handleClick={this.numberListener} />
-        <Button name="six" value="6" handleClick={this.numberListener} />
-        <Button name="one" value="1" handleClick={this.numberListener} />
-        <Button name="two" value="2" handleClick={this.numberListener} />
-        <Button name="three" value="3" handleClick={this.numberListener} />
-        <Button name="zero" value="0" handleClick={this.numberListener} />
+        <Button name="seven" value="7" keytype="number" handleClick={this.handleKeys} />
+        <Button name="eight" value="8" keytype="number" handleClick={this.handleKeys} />
+        <Button name="nine" value="9" keytype="number" handleClick={this.handleKeys} />
+        <Button name="four" value="4" keytype="number" handleClick={this.handleKeys} />
+        <Button name="five" value="5" keytype="number" handleClick={this.handleKeys} />
+        <Button name="six" value="6" keytype="number" handleClick={this.handleKeys} />
+        <Button name="one" value="1" keytype="number" handleClick={this.handleKeys} />
+        <Button name="two" value="2" keytype="number" handleClick={this.handleKeys} />
+        <Button name="three" value="3" keytype="number" handleClick={this.handleKeys} />
+        <Button name="zero" value="0" keytype="number" handleClick={this.handleKeys} />
 
-        <Button name="decimal" value="." handleClick={this.decimalListener} />
+        <Button name="decimal" value="." keytype="decimal" handleClick={this.handleKeys} />
+        <Button name="plusminus" value="±" keytype="plusminus" handleClick={this.handleKeys} />
 
 
-        <Button name="delete" value="C" handleClick={this.deleteListener} />
-        <Button name="clear" value="AC" handleClick={this.clearListener} />
+        <Button name="delete" value="C" keytype="delete" handleClick={this.handleKeys} />
+        <Button name="clear" value="AC" keytype="clear" handleClick={this.handleKeys} />
 
-        <Button name="add" value="+" handleClick={this.operatorListener} />
-        <Button name="subtract" value="-" handleClick={this.operatorListener} />
-        <Button name="multiply" value="×" handleClick={this.operatorListener} />
-        <Button name="divide" value="÷" handleClick={this.operatorListener} />
-        <Button name="equals" value="=" handleClick={this.calculate} />
+        <Button name="add" value="+" keytype="add" handleClick={this.handleKeys} />
+        <Button name="subtract" value="-" keytype="subtract" handleClick={this.handleKeys} />
+        <Button name="multiply" value="×" keytype="multiply" handleClick={this.handleKeys} />
+        <Button name="divide" value="÷" keytype="divide" handleClick={this.handleKeys} />
+        <Button name="equals" value="=" keytype="equals" handleClick={this.handleKeys} />
 
       </div>
     );
