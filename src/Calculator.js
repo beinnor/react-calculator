@@ -245,33 +245,33 @@ class Calculator extends React.Component {
         </div>
 
         <div className="keys" onClick={this.handleKeys}>
-          <button type="button" className="allClear" value="allClear">AC</button>
+          <button type="button" id="clear" className="allClear" value="allClear">AC</button>
           <button type="button" className="clear" value="clear">C</button>
           <button type="button" className="plusMinus" value="plusMinus">&plusmn;</button>
           <button type="button" className="root operator" value="root">&radic;</button>
 
-          <button type="button" value="7">7</button>
-          <button type="button" value="8">8</button>
-          <button type="button" value="9">9</button>
-          <button type="button" className="operator" value="/">&divide;</button>
+          <button type="button" id="seven" value="7">7</button>
+          <button type="button" id="eight" value="8">8</button>
+          <button type="button" id="nine" value="9">9</button>
+          <button type="button" id="divide" className="operator" value="/">&divide;</button>
 
 
-          <button type="button" value="4">4</button>
-          <button type="button" value="5">5</button>
-          <button type="button" value="6">6</button>
-          <button type="button" className="operator" value="*">&times;</button>
+          <button type="button" id="four" value="4">4</button>
+          <button type="button" id="five" value="5">5</button>
+          <button type="button" id="six" value="6">6</button>
+          <button type="button" id="multiply" className="operator" value="*">&times;</button>
 
 
-          <button type="button" value="1">1</button>
-          <button type="button" value="2">2</button>
-          <button type="button" value="3">3</button>
-          <button type="button" className="operator" value="-">-</button>
+          <button type="button" id="one" value="1">1</button>
+          <button type="button" id="two" value="2">2</button>
+          <button type="button" id="three" value="3">3</button>
+          <button type="button" id="subtract" className="operator" value="-">-</button>
 
 
-          <button type="button" value="0">0</button>
-          <button type="button" className="decimal" value=".">.</button>
-          <button type="button" className="equalSign operator" value="=">=</button>
-          <button type="button" className="operator" value="+">+</button>
+          <button type="button" id="zero" value="0">0</button>
+          <button type="button" id="decimal" className="decimal" value=".">.</button>
+          <button type="button" id="equals" className="equalSign operator" value="=">=</button>
+          <button type="button" id="add" className="operator" value="+">+</button>
         </div>
 
       </div>
